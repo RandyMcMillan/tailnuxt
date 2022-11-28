@@ -86,7 +86,6 @@ export HOMEBREW_NO_ENV_HINTS
 -: help
 ##	:	init			initialize nvm environment
 init:
-#	@["$(shell $(SHELL))" == "/bin/zsh"] && zsh --emulate sh
 	@./scripts/initialize
 
 .PHONY:all
