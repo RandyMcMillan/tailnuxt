@@ -1,5 +1,14 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
+import { defineNuxtConfig } from 'nuxt';
 export default defineNuxtConfig({
+vite: {
+    server: {
+      hmr: {
+        protocol: 'wss',
+        clientPort: 443,
+      },
+    },
+  },
       buildModules: [
             '@nuxtjs/tailwindcss',
             '@nuxt/image-edge',
