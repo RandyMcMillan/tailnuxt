@@ -199,7 +199,7 @@ command:
 .ONESHELL:
 ##	:	nvm		 	install node version manager
 nvm:
-	@curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash || git pull -C $(HOME)/.nvm
+	@curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash || git pull -C $(HOME)/.nvm
 	@echo "-------- Restart your terminal!!!! ---------"
 
 .PHONY: docs readme index
