@@ -137,7 +137,7 @@ clean-install:
 ##	:	electron		build electron
 electron: install generate
 	@echo
-	@cd ./public && yarn run start
+	@cd .output/public && electron index.html
 
 .PHONY: start
 ##	:	start			yarn run start
