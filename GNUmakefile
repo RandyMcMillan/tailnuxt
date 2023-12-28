@@ -2,11 +2,12 @@
 SHELL									:= /bin/bash
 
 PWD										?= pwd_unknown
-#space:=
-#space+=
 
-# CURRENT_PATH := $(subst $(lastword $(notdir $(MAKEFILE_LIST))),,$(subst $(space),\$(space),$(shell realpath '$(strip $(MAKEFILE_LIST))')))
-# export CURRENT_PATH
+space:=
+space+= 
+
+CURRENT_PATH := $(subst $(lastword $(notdir $(MAKEFILE_LIST))),,$(subst $(space),\$(space),$(shell realpath '$(strip $(MAKEFILE_LIST))')))
+export CURRENT_PATH
 
 THIS_DIR=$(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 export THIS_DIR
@@ -24,11 +25,15 @@ export PROJECT_NAME
 
 ifeq ($(NODE_VERSION),)
 #NODE_VERSION									:= $(shell node --version)
-NODE_VERSION									:= 16.15.1
+NODE_VERSION									:= 16.10.0
 else
 NODE_VERSION									:= $(NODE_VERSION)
 endif
 export NODE_VERSION
+
+YARN_COMMAND:=$(shell which yarn)
+export YARN_COMMAND
+export YARN_IGNORE_NODE=1
 
 ifeq ($(force),true)
 FORCE									:= --force
@@ -142,7 +147,7 @@ electron: install generate
 .PHONY: start
 ##	:	start			yarn run start
 start:
-	@cd ./public && yarn run start
+	YARN_IGNORE_NODE=1 && . ~/.nvm/nvm.sh && nvm use && yarn run start
 
 ##	:	help
 help:
@@ -161,6 +166,8 @@ report:
 	@echo ' THIS_DIR=${THIS_DIR}	'
 	@echo ' PROJECT_NAME=${PROJECT_NAME}	'
 	@echo ' NODE_VERSION=${NODE_VERSION}	'
+	@echo ' YARN_COMMAND=${YARN_COMMAND}	'
+	@echo ' YARN_IGNORE_NODE=${YARN_IGNORE_NODE}	'
 	@echo ' GIT_USER_NAME=${GIT_USER_NAME}	'
 	@echo ' GIT_USER_EMAIL=${GIT_USER_EMAIL}	'
 	@echo ' GIT_SERVER=${GIT_SERVER}	'
