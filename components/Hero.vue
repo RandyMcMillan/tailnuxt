@@ -22,7 +22,7 @@
               <div class="flex w-full sm:w-auto">
                 <a
                   class="btn text-white border border-primary-600 bg-primary-600 hover:bg-primary-800 hover:border-primary-800 sm:mb-0 font-bold w-full px-10 py-3 rounded-md"
-                  href="https://github.com/bitkarrot/tailnuxt"
+                  href="https://github.com/randymcmillan/tailnuxt"
                 >
                   Get template
                 </a>
