@@ -95,7 +95,7 @@ init:
 
 .PHONY:all
 ##	:	all			install build generate
-all: install build
+all: build install
 .PHONY:cert
 ##	:
 ##	:	cert			create openssl cert.pem
