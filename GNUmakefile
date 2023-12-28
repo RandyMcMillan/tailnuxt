@@ -31,9 +31,14 @@ NODE_VERSION									:= $(NODE_VERSION)
 endif
 export NODE_VERSION
 
-YARN_COMMAND:=$(shell which yarn)
+YARN_COMMAND:=yarn
 export YARN_COMMAND
-export YARN_IGNORE_NODE=1
+
+PROTO_COMMAND:=proto
+export PROTO_COMMAND
+
+YARN_IGNORE_NODE=1
+export YARN_IGNORE_NODE
 
 ifeq ($(force),true)
 FORCE									:= --force
@@ -81,8 +86,11 @@ export HOMEBREW_NO_ENV_HINTS
 ##make	:	command			description
 .ONESHELL:
 .PHONY:-
+.PHONY:	all
 .PHONY:	init
 .PHONY:	help
+.PHONY:	build
+.PHONY:	install
 .PHONY:	report
 .PHONY:	brew
 .SILENT:
@@ -95,7 +103,9 @@ init:
 
 .PHONY:all
 ##	:	all			install build generate
-all: build install
+all:
+	$(MAKE) install build
+
 .PHONY:cert
 ##	:
 ##	:	cert			create openssl cert.pem
@@ -105,31 +115,32 @@ cert:
 	@openssl req -new -key key.pem -out csr.pem
 	@openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
 	@rm csr.pem
+
 .PHONY:install
-##	:	install			yarn install
+##	:	install			$(YARN_COMMAND)
 install:
-	YARN_IGNORE_NODE=1 yarn install
+	YARN_IGNORE_NODE=1 $(YARN_COMMAND) || YARN_IGNORE_NODE=1 $(proto bin yarn)
 .PHONY:build
-##	:	build			yarn run build
+##	:	build			$(YARN_COMMAND) run build
 build:
-	YARN_IGNORE_NODE=1 yarn run build
+	YARN_IGNORE_NODE=1 yarn run build || YARN_IGNORE_NODE=1 $(proto bin yarn run build)
 .PHONY:dev
-##	:	dev			yarn run dev
+##	:	dev			$(YARN_COMMAND) run dev
 dev:
-	YARN_IGNORE_NODE=1 yarn run dev
+	YARN_IGNORE_NODE=1 $(YARN_COMMAND) run dev
 .PHONY:generate
-##	:	generate		yarn run generate
+##	:	generate		$(YARN_COMMAND) run generate
 generate:
-	YARN_IGNORE_NODE=1 yarn run generate
+	YARN_IGNORE_NODE=1 $(YARN_COMMAND) run generate
 ##	:
 .PHONY:preview
-##	:	preview			yarn run preview
+##	:	preview			$(YARN_COMMAND) run preview
 preview:
-	YARN_IGNORE_NODE=1 yarn run preview
+	YARN_IGNORE_NODE=1 $(YARN_COMMAND) run preview
 .PHONY:postinstall
-##	:	postinstall		yarn run postinstall
+##	:	postinstall		$(YARN_COMMAND) run postinstall
 postinstall:
-	YARN_IGNORE_NODE=1 yarn run postinstall
+	YARN_IGNORE_NODE=1 $(YARN_COMMAND) run postinstall
 
 .PHONY:clean-install
 ##	:	clean-install		npm clean-install
@@ -145,9 +156,9 @@ electron: install generate
 	@cd .output/public && electron index.html
 
 .PHONY: start
-##	:	start			yarn run start
+##	:	start			$(YARN_COMMAND) run start
 start:
-	YARN_IGNORE_NODE=1 && . ~/.nvm/nvm.sh && nvm use && yarn run start
+	YARN_IGNORE_NODE=1 && . ~/.nvm/nvm.sh && nvm use && $(YARN_COMMAND) run start
 
 ##	:	help
 help:
@@ -168,6 +179,7 @@ report:
 	@echo ' NODE_VERSION=${NODE_VERSION}	'
 	@echo ' YARN_COMMAND=${YARN_COMMAND}	'
 	@echo ' YARN_IGNORE_NODE=${YARN_IGNORE_NODE}	'
+	@echo ' PROTO_COMMAND=${PROTO_COMMAND}	'
 	@echo ' GIT_USER_NAME=${GIT_USER_NAME}	'
 	@echo ' GIT_USER_EMAIL=${GIT_USER_EMAIL}	'
 	@echo ' GIT_SERVER=${GIT_SERVER}	'
