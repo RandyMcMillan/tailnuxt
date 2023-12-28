@@ -237,6 +237,7 @@ clean-npm:
 	rm -rf $(HOME)/.npm
 clean-all: clean clean-nvm clean-npm clean-usr-local-libs
 
+-include nvm.mk
 -include node.mk
 # vim: set noexpandtab:
 # vim: set setfiletype make
