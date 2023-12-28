@@ -103,28 +103,28 @@ cert:
 .PHONY:install
 ##	:	install			yarn install
 install:
-	@yarn install
+	YARN_IGNORE_NODE=1 yarn install
 .PHONY:build
 ##	:	build			yarn run build
 build:
-	yarn run build
+	YARN_IGNORE_NODE=1 yarn run build
 .PHONY:dev
 ##	:	dev			yarn run dev
 dev:
-	yarn run dev
+	YARN_IGNORE_NODE=1 yarn run dev
 .PHONY:generate
 ##	:	generate		yarn run generate
 generate:
-	yarn run generate
+	YARN_IGNORE_NODE=1 yarn run generate
 ##	:
 .PHONY:preview
 ##	:	preview			yarn run preview
 preview:
-	yarn run preview
+	YARN_IGNORE_NODE=1 yarn run preview
 .PHONY:postinstall
 ##	:	postinstall		yarn run postinstall
 postinstall:
-	yarn run postinstall
+	YARN_IGNORE_NODE=1 yarn run postinstall
 
 .PHONY:clean-install
 ##	:	clean-install		npm clean-install
